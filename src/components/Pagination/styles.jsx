@@ -1,20 +1,16 @@
 import { makeStyles } from '@mui/styles';
 
 export default makeStyles((theme) => ({
-  imageLink: {
+  container: {
     display: 'flex',
     justifyContent: 'center',
-    padding: '10% 0',
+    alignItems: 'center',
   },
-  image: {
-    width: '70%',
+  button: {
+    margin: '30px 2px',
   },
-  link: {
+  pageNumber: {
+    margin: '0 20px !important',
     color: theme.palette.text.primary,
-    textDecoration: 'none',
   },
-  genreImage: {
-    filter: theme.palette.mode === 'dark' && 'invert(1)',
-  },
-
 }));

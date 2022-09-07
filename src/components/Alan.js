@@ -1,0 +1,48 @@
+import { useEffect, useContext } from 'react';
+import alanBtn from '@alan-ai/alan-sdk-web';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { ColorModeContext } from '../utils/ToggleColor';
+import { fetchToken } from '../utils/index.js';
+import { selectGenreOrCategory, searchMovie } from '../features/currentCategoriesOrGenre';
+
+const useAlan = () => {
+  const { setMode } = useContext(ColorModeContext);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  useEffect(() => {
+    alanBtn({
+      key: '840b2cc04bf3adb45f09a26c596a1da92e956eca572e1d8b807a3e2338fdd0dc/stage',
+      onCommand: ({ command, mode, genres, genreOrCategory, query }) => {
+        if (command === 'search') {
+          dispatch(searchMovie(query));
+        } else if (command === 'chooseGenre') {
+          const foundGenre = genres.find((g) => g.name.toLowerCase() === genreOrCategory.toLowerCase());
+
+          if (foundGenre) {
+            navigate('/');
+            dispatch(selectGenreOrCategory(foundGenre.id));
+          } else {
+            const category = genreOrCategory.startsWith('top') ? 'top_rated' : genreOrCategory;
+            navigate('/');
+            dispatch(selectGenreOrCategory(category));
+          }
+        } else
+        if (command === 'changeMode') {
+          if (mode === 'light') {
+            setMode('light');
+          } else {
+            setMode('dark');
+          }
+        } else if (command === 'login') {
+          fetchToken();
+        } else if (command === 'logout') {
+          localStorage.clear();
+          window.location.href = '/';
+        }
+      },
+    });
+  }, []);
+};
+
+export default useAlan;
