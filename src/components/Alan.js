@@ -12,7 +12,7 @@ const useAlan = () => {
   const navigate = useNavigate();
   useEffect(() => {
     alanBtn({
-      key: '840b2cc04bf3adb45f09a26c596a1da92e956eca572e1d8b807a3e2338fdd0dc/stage',
+      key: process.env.REACT_APP_ALAN_KEY,
       onCommand: ({ command, mode, genres, genreOrCategory, query }) => {
         if (command === 'search') {
           dispatch(searchMovie(query));

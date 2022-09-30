@@ -22,15 +22,18 @@ export const fetchToken = async () => {
   }
 };
 
+// eslint-disable-next-line consistent-return
 export const createSessionId = async () => {
   const token = localStorage.getItem('request_token');
   if (token) {
     try {
+      // eslint-disable-next-line camelcase
       const { data: { session_id } } = await movieApi.post('authentication/session/new', {
         request_token: token,
       });
 
       localStorage.setItem('session_id', session_id);
+      // eslint-disable-next-line camelcase
       return session_id;
     } catch (error) {
       console.log(error);
